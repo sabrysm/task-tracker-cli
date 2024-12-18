@@ -15,5 +15,8 @@
 Below is an example of the Task Tracker CLI in action:
 
 ![Terminal Output](https://i.ibb.co/6Bg0zM8/image.png)
+
+Read more about the task description from [here](https://roadmap.sh/projects/task-tracker)
+
 ### Contributing
 Feel free to fork this repository and submit pull requests. Any improvements or bug fixes are welcome!
