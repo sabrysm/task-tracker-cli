@@ -23,9 +23,15 @@ public class TaskRepository {
     @Getter
     private List<Task> tasks = new ArrayList<>();
     private final Gson gson = new Gson();
-    private final String FILE_NAME = "E:\\tasks.json";
+    private final Path filePath;
+    private static final String DEFAULT_FILE_PATH = "E:\\tasks.json";
 
     public TaskRepository() {
+        this(Paths.get(DEFAULT_FILE_PATH));
+    }
+
+    public TaskRepository(Path filePath) {
+        this.filePath = filePath;
         try {
             loadTasks();
         } catch (IOException e) {
@@ -34,14 +40,13 @@ public class TaskRepository {
     }
 
     public void loadTasks() throws IOException {
-        Path path = Paths.get(FILE_NAME);
-
-        if (!Files.exists(path)) {
-            Files.createFile(path);
-            Files.writeString(path, "{\"tasks\":[]}");  // Initialize with an empty "tasks" array
+        if (!Files.exists(filePath)) {
+            Files.createDirectories(filePath.getParent());
+            Files.createFile(filePath);
+            Files.writeString(filePath, "{\"tasks\":[]}");  // Initialize with an empty "tasks" array
         }
 
-        String content = Files.readString(path);
+        String content = Files.readString(filePath);
 
         // Parse the JSON content
         // 1. Create a map from the JSON content
@@ -66,13 +71,13 @@ public class TaskRepository {
     }
 
     private void saveTasks() throws IOException {
-        Path path = Paths.get(FILE_NAME);
-        if (!Files.exists(path)) {
-            Files.createFile(path);
+        if (!Files.exists(filePath)) {
+            Files.createDirectories(filePath.getParent());
+            Files.createFile(filePath);
         }
         String content = new Gson().toJson(Collections.singletonMap("tasks", tasks));
 
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write(content);
         }
     }

@@ -11,13 +11,21 @@ import org.sabrysm.task_tracker_cli.models.Task;
 import org.sabrysm.task_tracker_cli.repositories.TaskRepository;
 
 public class TaskService {
-    private final TaskRepository repository = new TaskRepository();
+    private final TaskRepository repository;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
     private final int idWidth = 5;
     private final int descriptionWidth = 40;
     private final int statusWidth = 15;
     private final int createdAtWidth = 23;
     private final int updatedAtWidth = 23;
+
+    public TaskService() {
+        this(new TaskRepository());
+    }
+
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
+    }
 
     public void addTask(String description) throws IOException {
         int id = repository.nextId();
