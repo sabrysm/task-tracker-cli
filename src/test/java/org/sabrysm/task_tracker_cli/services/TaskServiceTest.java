@@ -95,7 +95,7 @@ class TaskServiceTest {
         taskService.deleteTask(id);
 
         // Assert
-        verify(repository).deleteTask(id);
+        verify(repository).deleteTask(eq(id));
     }
 
     @Test
@@ -145,6 +145,6 @@ class TaskServiceTest {
         taskService.listTasks(status);
 
         // Assert
-        verify(repository).getTasksByStatus(status);
+        verify(repository).getTasksByStatus(eq(status));
     }
 }
